@@ -1,1 +1,1 @@
-Requires Flickr Key api (REACT_APP_FLICKR_KEY) to come from .evn file
+Requires Flickr Key api (REACT_APP_FLICKR_KEY) to come from .env file
