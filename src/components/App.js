@@ -11,10 +11,6 @@ export class App extends Component {
     dispatch(searchPhotos(window.store));
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('here', nextProps);
-  }
-
   render() {
     const { fetchError } = this.props;
     return (

@@ -17,7 +17,6 @@ const callFlickrPhotosSearchAPI = async (dispatch) => {
     const method = 'flickr.photos.search';
     const urlSearch = `${urlBase}?method=${method}&api_key=${process.env.REACT_APP_FLICKR_KEY}&per_page=${perPage}&tags=${searchTags}&format=json&nojsoncallback=true`;
     const result = await fetch(urlSearch);
-    console.log('Got response from Flickr')
     dispatch(setPhotos(result));
   } catch (err) {
     dispatch(setFetchError(err));
