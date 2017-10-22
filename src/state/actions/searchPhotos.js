@@ -8,7 +8,7 @@ export const setPhotos = photos => ({
   photos,
 });
 
-const callFlickrPhotosSeachAPI = async (dispatch) => {
+const callFlickrPhotosSearchAPI = async (dispatch) => {
   try {
     // perPage should be a configurable option,
     // but since requirements docs showed 4 specifically for this prototype...
@@ -17,6 +17,7 @@ const callFlickrPhotosSeachAPI = async (dispatch) => {
     const method = 'flickr.photos.search';
     const urlSearch = `${urlBase}?method=${method}&api_key=${process.env.REACT_APP_FLICKR_KEY}&per_page=${perPage}&tags=${searchTags}&format=json&nojsoncallback=true`;
     const result = await fetch(urlSearch);
+    console.log('Got response from Flickr')
     dispatch(setPhotos(result));
   } catch (err) {
     dispatch(setFetchError(err));
@@ -25,7 +26,7 @@ const callFlickrPhotosSeachAPI = async (dispatch) => {
 };
 
 export const searchPhotos = store => (dispatch) => {
-  callFlickrPhotosSeachAPI(dispatch, store);
+  callFlickrPhotosSearchAPI(dispatch, store);
 };
 
 export default undefined;
