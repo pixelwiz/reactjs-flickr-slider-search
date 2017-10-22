@@ -1,4 +1,4 @@
-import { fetchJson } from '../../utils';
+import fetch from '../../utils/fetch';
 import { setFetchError } from './setFetchError';
 
 const urlBase = 'https://api.flickr.com/services/rest/';
@@ -14,11 +14,10 @@ const callFlickrPhotosSeachAPI = async (dispatch) => {
     // but since requirements docs showed 4 specifically for this prototype...
     const perPage = 4;
     const searchTags = 'awards'; // This needs to come from the form/input field...
-    const urlSearch = `${urlBase}?method=flickr.photos.search&api_key=${process.env.REACT_APP_FLICKR_KEY}&per_page=${perPage}&tags=${searchTags}&format=json&nojsoncallback=true`;
-    const photos = await fetchJson(urlSearch);
-    console.log(photos);
-
-    dispatch(setPhotos(photos));
+    const method = 'flickr.photos.search';
+    const urlSearch = `${urlBase}?method=${method}&api_key=${process.env.REACT_APP_FLICKR_KEY}&per_page=${perPage}&tags=${searchTags}&format=json&nojsoncallback=true`;
+    const result = await fetch(urlSearch);
+    dispatch(setPhotos(result));
   } catch (err) {
     dispatch(setFetchError(err));
     throw err;

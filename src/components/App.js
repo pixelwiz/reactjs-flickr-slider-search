@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { searchPhotos } from '../state/actions/searchPhotos';
+import { Slider } from './Slider';
+import Error from './Error';
 import '../styles/App.css';
 
 export class App extends Component {
@@ -8,15 +10,19 @@ export class App extends Component {
     const { dispatch } = this.props;
     dispatch(searchPhotos(window.store));
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('here', nextProps);
+  }
+
   render() {
+    const { fetchError } = this.props;
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Flickr Slider in React.js</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {!fetchError ? <Slider searchPhotos={this.props.searchPhotos} /> : <Error />}
       </div>
     );
   }
@@ -24,4 +30,5 @@ export class App extends Component {
 
 export default connect(state => ({
   fetchError: state.fetchError,
+  searchPhotos: state.searchPhotos,
 }))(App);

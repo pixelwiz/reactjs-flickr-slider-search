@@ -1,13 +1,7 @@
-const { Headers } = window;
+import axios from 'axios';
 
-export const fetch = (url, options) => window.fetch(url, {
-  ...options,
-  headers: new Headers({
-    'Content-Type': 'application/json',
-  }),
-});
-
-export const fetchJson = async (url, options) => {
-  const response = await fetch(url, options);
-  return response.json();
+export default async (url, options) => {
+  const response = await axios.get(url, options);
+  return response.data;
 };
+
