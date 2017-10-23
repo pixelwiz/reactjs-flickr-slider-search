@@ -27,6 +27,7 @@ export class Slider extends Component {
   constructor(props) {
     super(props);
     this.getThumbnailPhotos = this.getThumbnailPhotos.bind(this);
+    this.getMainPhoto = this.getMainPhoto.bind(this);
   }
 
   getThumbnailPhotos() {
@@ -38,15 +39,35 @@ export class Slider extends Component {
       }));
       return photoThumbInfo;
     }
-    return <div>Loading data...</div>;
+    return null;
+  }
+
+  getMainPhoto() {
+    const { photos } = this.props;
+    if (photos && photos.photo) {
+      // ToDo: which one needs to come from state
+      // which thumbnail is selected, for now hardcoding to 0
+      const mainPhoto = {
+        ...photos.photo[0],
+        url: `${getFlickrPhotoUrl(photos.photo[0], 'z')}`,
+      };
+      return <img key={mainPhoto.id} src={mainPhoto.url} alt={mainPhoto.title} />;
+    }
+    return null;
   }
 
   render() {
-    const thumbPhotos = Array.isArray(this.getThumbnailPhotos())
-      ? <Thumbnails thumbnails={this.getThumbnailPhotos()} />
+    const arrPhotos = this.getThumbnailPhotos();
+    const photosInState = Array.isArray(arrPhotos);
+    const thumbPhotos = photosInState
+      ? <div><Thumbnails thumbnails={this.getThumbnailPhotos()} /></div>
+      : null;
+    const mainPhoto = photosInState
+      ? this.getMainPhoto()
       : null;
     return (
       <div>
+        {mainPhoto}
         {thumbPhotos}
       </div>
     );
