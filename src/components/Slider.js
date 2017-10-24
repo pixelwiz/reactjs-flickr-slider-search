@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Thumbnails from './Thumbnails';
+import { setMainImageIndex } from '../state/actions/setMainImage';
 
 /*
   https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
@@ -29,6 +30,8 @@ export class Slider extends Component {
     this.getThumbnailPhotos = this.getThumbnailPhotos.bind(this);
     this.getMainPhoto = this.getMainPhoto.bind(this);
   }
+  
+  onThumbnailClick = index => this.props.dispatch(setMainImageIndex(index));
 
   getThumbnailPhotos() {
     const { photos } = this.props;
@@ -43,13 +46,13 @@ export class Slider extends Component {
   }
 
   getMainPhoto() {
-    const { photos } = this.props;
+    const { photos, slider } = this.props;
     if (photos && photos.photo) {
       // ToDo: which one needs to come from state
       // which thumbnail is selected, for now hardcoding to 0
       const mainPhoto = {
-        ...photos.photo[0],
-        url: `${getFlickrPhotoUrl(photos.photo[0], 'z')}`,
+        ...photos.photo[slider.mainImageIndex],
+        url: `${getFlickrPhotoUrl(photos.photo[slider.mainImageIndex], 'z')}`,
       };
       return <img key={mainPhoto.id} src={mainPhoto.url} alt={mainPhoto.title} />;
     }
@@ -60,7 +63,14 @@ export class Slider extends Component {
     const arrPhotos = this.getThumbnailPhotos();
     const photosInState = Array.isArray(arrPhotos);
     const thumbPhotos = photosInState
-      ? <div><Thumbnails thumbnails={this.getThumbnailPhotos()} /></div>
+      ? (
+        <div>
+          <Thumbnails
+            thumbnails={this.getThumbnailPhotos()}
+            onThumbnailClick={this.onThumbnailClick} 
+          />
+        </div>
+      )
       : null;
     const mainPhoto = photosInState
       ? this.getMainPhoto()
@@ -77,6 +87,7 @@ export class Slider extends Component {
 const mapStateToProps = state => (
   {
     photos: state.searchPhotos.photos,
+    slider: state.slider,
   }
 );
 

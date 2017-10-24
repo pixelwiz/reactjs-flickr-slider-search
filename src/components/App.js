@@ -7,10 +7,10 @@ import Error from './Error';
 import '../styles/App.css';
 
 export class App extends Component {
-  /* componentDidMount() {
+  componentDidMount() {
     const { dispatch } = this.props;
     dispatch(searchPhotos(window.store));
-  } */
+  }
 
   searchPhotosSubmit = () => {
     const { dispatch } = this.props;
@@ -34,4 +34,5 @@ export class App extends Component {
 export default connect(state => ({
   fetchError: state.fetchError,
   form: state.form,
+  slider: state.slider,
 }))(App);

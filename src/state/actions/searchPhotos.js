@@ -8,11 +8,10 @@ export const setPhotos = photos => ({
   photos,
 });
 
-const callFlickrPhotosSearchAPI = async (dispatch, searchTags = 'genius') => {
+const callFlickrPhotosSearchAPI = async (dispatch, store) => {
   try {
-    // perPage should be a configurable option,
-    // but since requirements docs showed 4 specifically for this prototype...
-    const perPage = 4;
+    const searchTags = store.getState().form.searchForm.values ? store.getState().form.searchForm.values.search : 'super computers';
+    const { perPage } = store.getState().slider;
     const method = 'flickr.photos.search';
     const urlSearch = `${urlBase}?method=${method}&api_key=${process.env.REACT_APP_FLICKR_KEY}&per_page=${perPage}&tags=${searchTags}&format=json&nojsoncallback=true`;
     const result = await fetch(urlSearch);
@@ -24,7 +23,7 @@ const callFlickrPhotosSearchAPI = async (dispatch, searchTags = 'genius') => {
 };
 
 export const searchPhotos = store => (dispatch) => {
-  callFlickrPhotosSearchAPI(dispatch, store.getState().form.searchForm.values.search);
+  callFlickrPhotosSearchAPI(dispatch, store);
 };
 
 export default undefined;

@@ -6,13 +6,30 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './state/store/configureStore';
 
-window.store = configureStore();
+window.store = configureStore({
+  slider: {
+    mainImageIndex: 0,
+    perPage: 4, // Per supplied requirements
+  },
+});
+
+const rootEl = document.getElementById('root');
 
 ReactDOM.render(
   <Provider store={window.store}>
     <App />
   </Provider>,
-  document.getElementById('root'),
+  rootEl,
 );
+
+if (module.hot) {
+  module.hot.accept('./components/App', () => {
+    const NextApp = require('./components/App').default; // eslint-disable-line global-require
+    ReactDOM.render(
+      <NextApp />,
+      rootEl,
+    );
+  });
+}
 registerServiceWorker();
 
