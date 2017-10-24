@@ -23,6 +23,9 @@ import { setMainImageIndex } from '../state/actions/setMainImage';
   o original image, either a jpg, gif or png, depending on source format
 */
 const getFlickrPhotoUrl = (photo, size = 'b') => `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_${size}.jpg`;
+const arrowStyle = {
+  fontSize: '3em',
+};
 
 export class Slider extends Component {
   constructor(props) {
@@ -30,7 +33,7 @@ export class Slider extends Component {
     this.getThumbnailPhotos = this.getThumbnailPhotos.bind(this);
     this.getMainPhoto = this.getMainPhoto.bind(this);
   }
-  
+
   onThumbnailClick = index => this.props.dispatch(setMainImageIndex(index));
 
   getThumbnailPhotos() {
@@ -59,6 +62,29 @@ export class Slider extends Component {
     return null;
   }
 
+  showNextPhoto() {
+    const { slider } = this.props;
+    const nextPhotoIndex = slider.mainImageIndex + 1;
+    if (nextPhotoIndex < slider.perPage) {
+      this.props.dispatch(setMainImageIndex(nextPhotoIndex));
+    }
+  }
+
+  showPriorPhoto() {
+    const { slider } = this.props;
+    const priorPhotoIndex = slider.mainImageIndex - 1;
+    if (priorPhotoIndex < slider.perPage) {
+      this.props.dispatch(setMainImageIndex(priorPhotoIndex));
+    }
+  }
+
+  showLeftArrow() {
+    const { slider } = this.props;
+    return slider.mainImageIndex > 0
+      ? <span onClick={() => this.showPriorPhoto()} style={arrowStyle}>&larr;</span>
+      : null;
+  }
+
   render() {
     const arrPhotos = this.getThumbnailPhotos();
     const photosInState = Array.isArray(arrPhotos);
@@ -67,7 +93,7 @@ export class Slider extends Component {
         <div>
           <Thumbnails
             thumbnails={this.getThumbnailPhotos()}
-            onThumbnailClick={this.onThumbnailClick} 
+            onThumbnailClick={this.onThumbnailClick}
           />
         </div>
       )
@@ -76,8 +102,12 @@ export class Slider extends Component {
       ? this.getMainPhoto()
       : null;
     return (
-      <div>
-        {mainPhoto}
+      <div id="slider">
+        <div>
+          {this.showLeftArrow()}
+          {mainPhoto}
+          <span onClick={() => this.showNextPhoto()} style={arrowStyle}>&rarr;</span>
+        </div>
         {thumbPhotos}
       </div>
     );

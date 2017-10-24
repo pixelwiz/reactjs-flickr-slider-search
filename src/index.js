@@ -9,6 +9,7 @@ import configureStore from './state/store/configureStore';
 window.store = configureStore({
   slider: {
     mainImageIndex: 0,
+    pageNum: 1,
     perPage: 4, // Per supplied requirements
   },
 });
