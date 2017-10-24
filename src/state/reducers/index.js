@@ -1,17 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
 import searchPhotos from './searchPhotos';
-import setMainImage from './setMainImage';
-import nextPage from './nextPage';
-import setPerPage from './setPerPage';
-
+import slider from './slider';
 
 export default combineReducers({
   searchPhotos,
-  slider: combineReducers({
-    mainImageIndex: setMainImage,
-    pageNum: nextPage,
-    perPage: setPerPage,
-  }),
+  slider,
   form: reduxFormReducer, // mounted under "form"
 });

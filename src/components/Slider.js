@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Thumbnails from './Thumbnails';
-import { setMainImageIndex } from '../state/actions/setMainImage';
+import { setMainImageIndex, setNextPage, setPriorPage } from '../state/actions/slider';
+import { searchPhotos } from '../state/actions/searchPhotos';
 
 /*
   https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
@@ -63,24 +64,32 @@ export class Slider extends Component {
   }
 
   showNextPhoto() {
-    const { slider } = this.props;
+    const { slider, dispatch } = this.props;
     const nextPhotoIndex = slider.mainImageIndex + 1;
     if (nextPhotoIndex < slider.perPage) {
-      this.props.dispatch(setMainImageIndex(nextPhotoIndex));
+      dispatch(setMainImageIndex(nextPhotoIndex));
+    } else {
+      dispatch(setNextPage());
+      dispatch(searchPhotos(window.store));
+      dispatch(setMainImageIndex(0)); // Reset to 1st image on next page
     }
   }
 
   showPriorPhoto() {
-    const { slider } = this.props;
+    const { slider, dispatch } = this.props;
     const priorPhotoIndex = slider.mainImageIndex - 1;
-    if (priorPhotoIndex < slider.perPage) {
-      this.props.dispatch(setMainImageIndex(priorPhotoIndex));
+    if (priorPhotoIndex >= 0) {
+      dispatch(setMainImageIndex(priorPhotoIndex));
+    } else {
+      dispatch(setPriorPage());
+      dispatch(searchPhotos(window.store));
+      dispatch(setMainImageIndex(slider.perPage - 1));
     }
   }
 
   showLeftArrow() {
     const { slider } = this.props;
-    return slider.mainImageIndex > 0
+    return (slider.mainImageIndex > 0 || slider.pageNum > 1)
       ? <span onClick={() => this.showPriorPhoto()} style={arrowStyle}>&larr;</span>
       : null;
   }

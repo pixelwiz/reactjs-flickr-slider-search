@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { searchPhotos } from '../state/actions/searchPhotos';
+import { setMainImageIndex, setFirstPage } from '../state/actions/slider';
 import Slider from './Slider';
 import SearchForm from './SearchForm';
 import Error from './Error';
@@ -14,6 +15,8 @@ export class App extends Component {
 
   searchPhotosSubmit = () => {
     const { dispatch } = this.props;
+    dispatch(setFirstPage());
+    dispatch(setMainImageIndex(0));
     dispatch(searchPhotos(window.store));
   }
 
