@@ -34,8 +34,12 @@ export class App extends Component {
   }
 }
 
-export default connect(state => ({
-  fetchError: state.fetchError,
-  form: state.form,
-  slider: state.slider,
-}))(App);
+const mapStateToProps = state => (
+  {
+    fetchError: state.fetchError,
+    form: state.form,
+    slider: state.slider,
+  }
+);
+
+export default connect(mapStateToProps)(App);
