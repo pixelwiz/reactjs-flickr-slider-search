@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Thumbnails from './Thumbnails';
-import { setMainImageIndex, setNextPage, setPriorPage } from '../state/actions/slider';
+import { setMainImageIndex, setNextPage, setPriorPage, setDirection } from '../state/actions/slider';
 import { searchPhotos } from '../state/actions/searchPhotos';
 
 /*
@@ -58,7 +58,7 @@ export class Slider extends Component {
         ...photos.photo[slider.mainImageIndex],
         url: `${getFlickrPhotoUrl(photos.photo[slider.mainImageIndex], 'z')}`,
       };
-      return <img key={mainPhoto.id} src={mainPhoto.url} alt={mainPhoto.title} />;
+      return <img key={mainPhoto.id} id="mainPhoto" src={mainPhoto.url} alt={mainPhoto.title} />;
     }
     return null;
   }
@@ -66,32 +66,41 @@ export class Slider extends Component {
   showNextPhoto() {
     const { slider, dispatch } = this.props;
     const nextPhotoIndex = slider.mainImageIndex + 1;
+    dispatch(setDirection('forward'));
     if (nextPhotoIndex < slider.perPage) {
       dispatch(setMainImageIndex(nextPhotoIndex));
     } else {
       dispatch(setNextPage());
       dispatch(searchPhotos(window.store));
-      dispatch(setMainImageIndex(0)); // Reset to 1st image on next page
     }
   }
 
   showPriorPhoto() {
     const { slider, dispatch } = this.props;
     const priorPhotoIndex = slider.mainImageIndex - 1;
+    dispatch(setDirection('back'));
     if (priorPhotoIndex >= 0) {
       dispatch(setMainImageIndex(priorPhotoIndex));
     } else {
       dispatch(setPriorPage());
       dispatch(searchPhotos(window.store));
-      dispatch(setMainImageIndex(slider.perPage - 1));
     }
   }
 
   showLeftArrow() {
-    const { slider } = this.props;
-    return (slider.mainImageIndex > 0 || slider.pageNum > 1)
+    const { slider, photos } = this.props;
+    const page = photos ? photos.page : 1;
+    return (slider.mainImageIndex > 0 || page > 1)
       ? <span id="leftArrow" onClick={() => this.showPriorPhoto()} style={arrowStyle}>&larr;</span>
       : null;
+  }
+
+  showRightArrow() {
+    const { photos = {} } = this.props;
+    const havePhotos = Array.isArray(photos.photo);
+    return havePhotos
+      ? <span id="rightArrow" onClick={() => this.showNextPhoto()} style={arrowStyle}>&rarr;</span>
+      : <p id="instructions">Please use the search field above</p>;
   }
 
   render() {
@@ -99,10 +108,11 @@ export class Slider extends Component {
     const photosInState = Array.isArray(arrPhotos);
     const thumbPhotos = photosInState
       ? (
-        <div>
+        <div id="thumbnailWrapper">
           <Thumbnails
             thumbnails={this.getThumbnailPhotos()}
             onThumbnailClick={this.onThumbnailClick}
+            selected={this.props.slider.mainImageIndex}
           />
         </div>
       )
@@ -112,10 +122,10 @@ export class Slider extends Component {
       : null;
     return (
       <div id="slider">
-        <div>
+        <div id="mainPhotoContainer">
           {this.showLeftArrow()}
           {mainPhoto}
-          <span id="rightArrow" onClick={() => this.showNextPhoto()} style={arrowStyle}>&rarr;</span>
+          {this.showRightArrow()}
         </div>
         {thumbPhotos}
       </div>

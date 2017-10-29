@@ -17,11 +17,35 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+img {
+  margin: 5px;
+  max-height: 450px;
 }
 
-img {
-  padding: 5px;
+button, label{
+  margin: 5px;
+}
+
+div#slider{
+  background-color: #eee;
+  width: 800px;
+  margin: 0 auto;
+}
+
+div#mainPhotoContainer{
+  min-height: 450px;
+  vertical-align: bottom;
+}
+
+div#thumbnailWrapper img {
+  border: 3px solid #999;
+}
+
+div#thumbnailWrapper img.active {
+  border: 3px solid #333;
+}
+
+#instructions{
+  padding: 10px;
+  margin:0;
 }

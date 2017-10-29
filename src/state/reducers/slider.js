@@ -31,6 +31,11 @@ export default (state = defaultState, action) => {
         ...state,
         pageNum: 1,
       };
+    case 'SET_DIRECTION':
+      return {
+        ...state,
+        direction: action.direction,
+      };
     default:
       return state;
   }

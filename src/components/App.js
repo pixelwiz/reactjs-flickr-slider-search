@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { searchPhotos } from '../state/actions/searchPhotos';
-import { setMainImageIndex, setFirstPage } from '../state/actions/slider';
+import { setFirstPage, setDirection } from '../state/actions/slider';
 import Slider from './Slider';
 import SearchForm from './SearchForm';
 import Error from './Error';
 import '../styles/App.css';
 
 export class App extends Component {
+  /*
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(searchPhotos(window.store));
   }
+  */
 
   searchPhotosSubmit = () => {
     const { dispatch } = this.props;
     dispatch(setFirstPage());
-    dispatch(setMainImageIndex(0));
+    dispatch(setDirection('forward'));
     dispatch(searchPhotos(window.store));
   }
 

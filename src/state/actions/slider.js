@@ -15,4 +15,9 @@ export const setFirstPage = () => ({
   type: 'FIRST_PAGE',
 });
 
+export const setDirection = direction => ({
+  type: 'SET_DIRECTION',
+  direction,
+});
+
 export default undefined;

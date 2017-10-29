@@ -11,6 +11,7 @@ window.store = configureStore({
     mainImageIndex: 0,
     pageNum: 1,
     perPage: 4, // Per supplied requirements
+    direction: 'forward',
   },
 });
 
