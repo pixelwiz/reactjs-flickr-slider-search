@@ -1,19 +1,14 @@
 import React from 'react';
-
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-
 import ConnectedApp, { App } from '../components/App';
-
+import Slider from '../components/Slider';
+import Error from '../components/Error';
 
 const mockStore = configureStore();
-const initialState = {
-  slider: {
-    mainImageIndex: 0,
-    pageNum: 1,
-    perPage: 4,
-  },
-};
+const dispatchMock = sinon.spy();
+const initialState = {};
 
 const store = mockStore(initialState);
 
@@ -22,30 +17,15 @@ describe('App', () => {
     shallow(<ConnectedApp store={store} />);
   });
   it('should have class name App', () => {
-    const wrapper = shallow(<ConnectedApp store={store} />);
-    expect(wrapper.hasClass('App')).toBe(true);
-  });
-});
-
-/*
-import { Provider } from 'react-redux';
-import Error from '../components/Error';
-import Slider from '../components/Slider';
-
-it('should render without crashing', () => {
-    shallow(<App />);
-  });
-  it('should have class name App', () => {
-    const wrapper = shallow(<App store={window.store} />);
-    console.log(wrapper.debug());
+    const wrapper = shallow(<App dispatch={dispatchMock} store={store} />);
     expect(wrapper.hasClass('App')).toBe(true);
   });
   it('renders Slider when fetchError is empty', () => {
-    const wrapper = mount(<App fetchError="" />);
+    const wrapper = shallow(<App dispatch={dispatchMock} store={store} fetchError="" />);
     expect(wrapper.containsMatchingElement(<Slider />)).toEqual(true);
   });
   it('renders Error when fetchError has a message', () => {
-    const wrapper = mount(<App fetchError="Failed" />);
+    const wrapper = shallow(<App dispatch={dispatchMock} store={store} fetchError="Failed" />);
     expect(wrapper.containsMatchingElement(<Error />)).toEqual(true);
   });
-*/
+});

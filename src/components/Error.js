@@ -1,3 +1,6 @@
 import React from 'react';
 
-export default () => <h3>Something didn not work, sorry...</h3>;
+const Error = () => <h3>Something didn not work, sorry...</h3>;
+
+export default Error;
+

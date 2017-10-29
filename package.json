@@ -14,7 +14,8 @@
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
     "redux-form": "^7.1.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sinon": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
