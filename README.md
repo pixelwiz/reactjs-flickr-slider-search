@@ -4,11 +4,12 @@ The following are complete:
 * Setup a ReactJS app using ES6 and ESLint (Some ESLint rules had to be disabled)
 * Connect to Flickr API to do an image search (Using Axios and Redux)
 * Show a search form field (using Redux Forms)
-* Show 4 thumbnail images
+* Show 4 thumbnail photos
+* Indicate selected/active photo
 * Show one main photo
 * Clickable thumbnail images to show a bigger one of each on click
 * Next and Previous arrows to go through images and pages, Previous error is hidden on 1st image
-* Unit Tests
+* A few unit tests
 
 The following enhancements are pending:
 * More complete unit test coverage
