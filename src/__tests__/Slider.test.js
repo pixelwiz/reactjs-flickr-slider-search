@@ -1,42 +1,55 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
-
+import { shallow } from 'enzyme';
 import { Slider } from '../components/Slider';
-import Error from '../components/Error';
-// import Slider from '../components/Slider';
-import configureStore from '../state/store/configureStore';
 
-const mockStore = {
+const firstPageFirstImage = {
   slider: {
     mainImageIndex: 0,
     pageNum: 1,
-    perPage: 4, // Per supplied requirements
+    perPage: 4,
+  },
+};
+
+const firstPageSecondImage = {
+  slider: {
+    mainImageIndex: 1,
+    pageNum: 1,
+    perPage: 4,
   },
 };
 
 describe('Slider', () => {
   it('should render without crashing', () => {
-    mount(<Slider {...mockStore} />);
+    shallow(<Slider {...firstPageFirstImage} />);
+  });
+  it('should show left arrow when not first [0] image on 1st page of results', () => {
+    const wrapper = shallow(<Slider {...firstPageSecondImage} />);
+    expect(wrapper.find('#leftArrow').exists()).toEqual(true);
+  });
+  it('should NOT show left arrow when on first [0] image on 1st page of results', () => {
+    const wrapper = shallow(<Slider {...firstPageFirstImage} />);
+    expect(wrapper.find('#leftArrow').exists()).toEqual(false);
   });
 });
 
 /*
-it('should render without crashing', () => {
-    shallow(<App />);
-  });
-  it('should have class name App', () => {
-    const wrapper = shallow(<App store={window.store} />);
     console.log(wrapper.debug());
-    expect(wrapper.hasClass('App')).toBe(true);
-  });
-  it('renders Slider when fetchError is empty', () => {
-    const wrapper = mount(<App fetchError="" />);
-    expect(wrapper.containsMatchingElement(<Slider />)).toEqual(true);
-  });
-  it('renders Error when fetchError has a message', () => {
-    const wrapper = mount(<App fetchError="Failed" />);
-    expect(wrapper.containsMatchingElement(<Error />)).toEqual(true);
-  });
+
+  slider: {
+    mainImageIndex: 0,
+    pageNum: 1,
+    perPage: 4,
+  },
+  form: {
+    searchForm: {
+      registeredFields: {
+        search: {
+          name: 'search',
+          type: 'field',
+          count: 1,
+        },
+      },
+    },
+  },
 */
 

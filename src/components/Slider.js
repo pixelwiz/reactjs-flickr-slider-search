@@ -90,7 +90,7 @@ export class Slider extends Component {
   showLeftArrow() {
     const { slider } = this.props;
     return (slider.mainImageIndex > 0 || slider.pageNum > 1)
-      ? <span onClick={() => this.showPriorPhoto()} style={arrowStyle}>&larr;</span>
+      ? <span id="leftArrow" onClick={() => this.showPriorPhoto()} style={arrowStyle}>&larr;</span>
       : null;
   }
 
@@ -115,7 +115,7 @@ export class Slider extends Component {
         <div>
           {this.showLeftArrow()}
           {mainPhoto}
-          <span onClick={() => this.showNextPhoto()} style={arrowStyle}>&rarr;</span>
+          <span id="rightArrow" onClick={() => this.showNextPhoto()} style={arrowStyle}>&rarr;</span>
         </div>
         {thumbPhotos}
       </div>
