@@ -1,13 +1,12 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import sinon from 'sinon';
+import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import ConnectedApp, { App } from '../components/App';
 import Slider from '../components/Slider';
 import Error from '../components/Error';
 
 const mockStore = configureStore();
-const dispatchMock = sinon.spy();
+const dispatchMock = jest.fn();
 const initialState = {};
 
 const store = mockStore(initialState);
